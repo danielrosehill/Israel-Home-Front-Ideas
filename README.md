@@ -1,8 +1,12 @@
+![Israel Home Front Ideas](banner.png)
+
 # Israel Home Front Ideas
 
 A small collection of ideas I've jotted down for improving home front alerting in Israel (Pikud HaOref / פיקוד העורף), accumulated over the course of living through the two wars with Iran.
 
 > These suggestions are offered with humility and the deepest respect for the people at Pikud HaOref and the emergency services who have kept us safe. I'm not a defense professional — just a resident who has spent a lot of time in a mamad, thinking about small UX and communication improvements that might help others. Ideas are shared in good faith, with no claim to expertise, and in the hope that even one might be useful.
+
+**[Download the full collection as a PDF](build/Israel-Home-Front-Ideas.pdf)**
 
 ## How this repo is organised
 
@@ -11,7 +15,7 @@ Ideas are grouped into thematic sections. Each idea follows a simple template:
 - **Problem** — what I noticed wasn't working well, or could be better.
 - **Suggested solution** — a rough sketch of what might help.
 
-## Sections
+## Index of ideas
 
 ### 1. The official app (Pikud HaOref app)
 _Ideas related to the official alerting app — notifications, UX, accessibility, reliability._
@@ -39,13 +43,10 @@ _Ideas around public shelters, mamad readiness, and information about the neares
 
 The shelter ideas form a layered stack — institution → data → app — and are best read together:
 
-1. [Public shelter authority](ideas/shelters-mamad/public-shelter-authority.md) — *institution layer.* National body, GIS register, viability code, inspection and enforcement, plus sub-ideas on access prohibition and point-of-contact signage.
-2. [Standard listing format and physical wayfinding](ideas/shelters-mamad/standard-listing-format-and-wayfinding.md) — *data layer.* Machine-readable lists, precise coordinates, documented access routes.
-3. [Mandatory municipal shelter-finder app](ideas/shelters-mamad/municipal-shelter-finder-app.md) — *consumer layer.* Geolocated, accessible, photos/videos, single source of truth.
-
-Cross-cutting facets of the shelter standard:
-
-- [Communications redundancy as a baseline duty](ideas/shelters-mamad/comms-redundancy-in-shelters.md) — cellular, Wi-Fi, hardened WEA tablet, and AM/FM radio in every shelter.
+- [Public shelter authority](ideas/shelters-mamad/public-shelter-authority.md) — *institution layer.* National body, GIS register, viability code, inspection and enforcement.
+- [Standard listing format and physical wayfinding](ideas/shelters-mamad/standard-listing-format-and-wayfinding.md) — *data layer.* Machine-readable lists, precise coordinates, documented access routes.
+- [Mandatory municipal shelter-finder app](ideas/shelters-mamad/municipal-shelter-finder-app.md) — *consumer layer.* Geolocated, accessible, photos/videos, single source of truth.
+- [Communications redundancy as a baseline duty in every public shelter](ideas/shelters-mamad/comms-redundancy-in-shelters.md) — cellular, Wi-Fi, hardened WEA tablet, and AM/FM radio in every shelter.
 - [Long-stay amenities — fewer but better-equipped shelters](ideas/shelters-mamad/long-stay-amenities.md) — mattresses, earplugs, AC, and the explicit trade-off.
 
 ### 6. Data, APIs & developer ecosystem
