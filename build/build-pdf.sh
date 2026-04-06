@@ -10,10 +10,13 @@ BUILD="$ROOT/build"
 cd "$ROOT"
 
 TIMESTAMP="$(date '+%Y-%m-%d %H:%M:%S %Z')"
+DATE_HUMAN="$(date '+%d-%b-%Y')"
+DATE_ISO="$(date '+%Y-%m-%d')"
 
 # Ordered list of source files: README first, then ideas grouped by section.
 SOURCES=(
   "README.md"
+  "ideas/official-app/android-permissions-and-wea-guidance.md"
   "ideas/siren-alert-delivery/traffic-light-scada-integration.md"
   "ideas/info-during-after/early-warning-without-alert-state.md"
   "ideas/info-during-after/current-guidance-field-in-feed.md"
@@ -29,10 +32,12 @@ SOURCES=(
 )
 
 # Concatenate sources into one markdown file with page breaks between them.
+# Strip shields.io badge images (GitHub-only rendering) so pandoc/typst don't
+# try to fetch them during compile.
 COMBINED="$BUILD/combined.md"
 : > "$COMBINED"
 for f in "${SOURCES[@]}"; do
-  cat "$f" >> "$COMBINED"
+  sed -E 's|!\[[^]]*\]\(https://img\.shields\.io/[^)]*\)||g' "$f" >> "$COMBINED"
   printf '\n\n\\newpage\n\n' >> "$COMBINED"
 done
 
@@ -64,19 +69,39 @@ cat > "$BUILD/wrapper.typ" <<EOF
   author: "Daniel Rosehill",
 )
 
+#let pill(body, fill: rgb("#1f6feb")) = box(
+  fill: fill,
+  inset: (x: 8pt, y: 3pt),
+  radius: 999pt,
+  text(fill: white, weight: "medium", size: 8pt, body),
+)
+
 #set page(
   paper: "a4",
-  margin: (x: 2cm, y: 2.4cm),
-  footer: context [
-    #set text(font: ("IBM Plex Sans", "Noto Serif Hebrew"), size: 8pt, fill: luma(110))
-    #grid(
+  margin: (x: 2cm, top: 2.6cm, bottom: 2.4cm),
+  header: context {
+    set text(font: ("IBM Plex Sans",), size: 8pt, fill: luma(90))
+    grid(
+      columns: (1fr, auto),
+      align: (left + horizon, right + horizon),
+      pill[ISRAEL HOME FRONT IDEAS],
+      text(fill: luma(130))[$DATE_HUMAN],
+    )
+    v(4pt)
+    line(length: 100%, stroke: 0.5pt + luma(200))
+  },
+  footer: context {
+    set text(font: ("IBM Plex Sans",), size: 8pt, fill: luma(110))
+    line(length: 100%, stroke: 0.5pt + luma(200))
+    v(4pt)
+    grid(
       columns: (1fr, 1fr, 1fr),
       align: (left, center, right),
-      [Israel Home Front Ideas],
-      [Built $TIMESTAMP],
-      [Page #counter(page).display() of #context counter(page).final().first()],
+      [Daniel Rosehill (and Claude Opus 4.6)],
+      [$DATE_HUMAN],
+      [#counter(page).display() / #context counter(page).final().first()],
     )
-  ],
+  },
 )
 
 #set text(
@@ -95,3 +120,9 @@ EOF
 
 typst compile "$BUILD/wrapper.typ" "$BUILD/Israel-Home-Front-Ideas.pdf"
 echo "Built: $BUILD/Israel-Home-Front-Ideas.pdf"
+
+# Archive a dated snapshot for historical record.
+ARCHIVE="$ROOT/releases/$DATE_ISO"
+mkdir -p "$ARCHIVE"
+cp "$BUILD/Israel-Home-Front-Ideas.pdf" "$ARCHIVE/Israel-Home-Front-Ideas-EN.pdf"
+echo "Archived: $ARCHIVE/Israel-Home-Front-Ideas-EN.pdf"

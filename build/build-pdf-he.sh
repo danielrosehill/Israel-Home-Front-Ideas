@@ -7,9 +7,12 @@ BUILD="$ROOT/build"
 cd "$ROOT"
 
 TIMESTAMP="$(date '+%Y-%m-%d %H:%M:%S %Z')"
+DATE_HUMAN="$(date '+%d-%b-%Y')"
+DATE_ISO="$(date '+%Y-%m-%d')"
 
 SOURCES=(
   "README.he.md"
+  "ideas-he/official-app/android-permissions-and-wea-guidance.md"
   "ideas-he/siren-alert-delivery/traffic-light-scada-integration.md"
   "ideas-he/info-during-after/early-warning-without-alert-state.md"
   "ideas-he/info-during-after/current-guidance-field-in-feed.md"
@@ -27,7 +30,7 @@ SOURCES=(
 COMBINED="$BUILD/combined-he.md"
 : > "$COMBINED"
 for f in "${SOURCES[@]}"; do
-  cat "$f" >> "$COMBINED"
+  sed -E 's|!\[[^]]*\]\(https://img\.shields\.io/[^)]*\)||g' "$f" >> "$COMBINED"
   printf '\n\n\\newpage\n\n' >> "$COMBINED"
 done
 
@@ -56,19 +59,39 @@ cat > "$BUILD/wrapper-he.typ" <<EOF
   author: "Daniel Rosehill",
 )
 
+#let pill(body, fill: rgb("#1f6feb")) = box(
+  fill: fill,
+  inset: (x: 8pt, y: 3pt),
+  radius: 999pt,
+  text(fill: white, weight: "medium", size: 8pt, body),
+)
+
 #set page(
   paper: "a4",
-  margin: (x: 2cm, y: 2.4cm),
-  footer: context [
-    #set text(font: ("Noto Serif Hebrew", "IBM Plex Sans"), size: 8pt, fill: luma(110), dir: rtl, lang: "he")
-    #grid(
+  margin: (x: 2cm, top: 2.6cm, bottom: 2.4cm),
+  header: context {
+    set text(font: ("Noto Serif Hebrew", "IBM Plex Sans"), size: 8pt, fill: luma(90), dir: rtl, lang: "he")
+    grid(
+      columns: (1fr, auto),
+      align: (right + horizon, left + horizon),
+      pill[רעיונות לעורף הישראלי],
+      text(fill: luma(130), dir: ltr)[$DATE_HUMAN],
+    )
+    v(4pt)
+    line(length: 100%, stroke: 0.5pt + luma(200))
+  },
+  footer: context {
+    set text(font: ("Noto Serif Hebrew", "IBM Plex Sans"), size: 8pt, fill: luma(110), dir: rtl, lang: "he")
+    line(length: 100%, stroke: 0.5pt + luma(200))
+    v(4pt)
+    grid(
       columns: (1fr, 1fr, 1fr),
       align: (right, center, left),
-      [רעיונות לעורף הישראלי],
-      [נבנה $TIMESTAMP],
-      [עמוד #counter(page).display() מתוך #context counter(page).final().first()],
+      [דניאל רוזהיל (וקלוד Opus 4.6)],
+      text(dir: ltr)[$DATE_HUMAN],
+      text(dir: ltr)[#counter(page).display() / #context counter(page).final().first()],
     )
-  ],
+  },
 )
 
 #set text(
@@ -88,3 +111,9 @@ EOF
 
 typst compile "$BUILD/wrapper-he.typ" "$BUILD/Israel-Home-Front-Ideas-HE.pdf"
 echo "Built: $BUILD/Israel-Home-Front-Ideas-HE.pdf"
+
+# Archive a dated snapshot for historical record.
+ARCHIVE="$ROOT/releases/$DATE_ISO"
+mkdir -p "$ARCHIVE"
+cp "$BUILD/Israel-Home-Front-Ideas-HE.pdf" "$ARCHIVE/Israel-Home-Front-Ideas-HE.pdf"
+echo "Archived: $ARCHIVE/Israel-Home-Front-Ideas-HE.pdf"
