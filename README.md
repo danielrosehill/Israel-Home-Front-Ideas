@@ -54,6 +54,7 @@ _The infrastructure around alert data: public feeds, APIs, MCP servers, and the 
 - [Provide a public and documented API](ideas/data-apis/public-documented-api.md) — replace the scraper sprawl with a professionally managed source of truth.
 - [Formally model the alert payload schema from real captured data](ideas/data-apis/formal-payload-model.md) — derive a canonical JSON Schema from observed traffic.
 - [Observed payload schema (v0)](ideas/data-apis/observed-payload-schema.md) — empirical model from a live capture, kicking off the formal-model effort.
+- [Official multilingual area names + stable area IDs](ideas/data-apis/official-multilingual-area-names.md) — kill the per-app translation tables that break for non-Hebrew speakers.
 
 ### 7. Miscellaneous
 _Everything else._
