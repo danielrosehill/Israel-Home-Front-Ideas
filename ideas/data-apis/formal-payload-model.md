@@ -22,6 +22,5 @@ This is a useful, low-risk piece of community infrastructure even *before* an of
 
 ## Notes
 
-- Local reference for capture: a Red Alert stack is reachable on the LAN at `10.0.0.4` — useful as a known good source of sample payloads while drafting the model.
 - Closely related to [Add a "current guidance" field to the alert data feed](../info-during-after/current-guidance-field-in-feed.md): a formal model of *what the payload is today* makes it much easier to argue precisely for *what it should also contain*.
 - Should be paired with a small validator CLI so any developer can pipe a captured payload through it and immediately see whether it conforms.
